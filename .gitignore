@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+
+# Ne pas publier (le dépôt est public) :
+# - ses dessins originaux en haute définition : le site n'utilise que les
+#   versions réduites produites par outils/preparer_images.py
+assets/images/originaux/
+# - notes de travail et réglages locaux de l'assistant
+CLAUDE.md
+.claude/

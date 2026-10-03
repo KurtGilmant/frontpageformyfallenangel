@@ -1,0 +1,887 @@
+/* =========================================================
+   Portfolio Manon — feuille de style unique
+   Repris du système du site existant : fond blanc, bleu de
+   marque, serif display en capitales espacées pour les titres,
+   sans géométrique pour le texte, boutons pilule noirs.
+   ========================================================= */
+
+:root {
+  /* Couleurs ------------------------------------------------ */
+  --blanc:       #ffffff;
+  --noir:        #111318;
+  --bleu:        #1268c4;   /* bleu du logo et des sous-titres */
+  --bleu-fonce:  #0b4a8f;
+  --bleu-pale:   #eaf2fb;
+  /* Texte secondaire. Son site utilise #8a8a8a, mais ce gris n'atteint que
+     3,45:1 sur blanc (WCAG AA exige 4,5:1) : assombri juste assez, 5:1. */
+  --gris:        #707070;
+  --gris-clair:  #e6e8ec;   /* filets, séparateurs */
+  --fond-doux:   #f7f9fb;
+
+  /* Typographie --------------------------------------------- */
+  --serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
+  --sans:  "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Échelle des livres (réduite sur petits écrans) ----------- */
+  --echelle: 1;
+
+  /* Gouttière horizontale ----------------------------------- */
+  --marge: clamp(20px, 5vw, 64px);
+}
+
+@media (max-width: 900px) { :root { --echelle: .80; } }
+@media (max-width: 620px) { :root { --echelle: .60; } }
+@media (max-width: 420px) { :root { --echelle: .52; } }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--noir);
+  background: var(--blanc);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* Titre de section : capitales serif espacées, centré --------- */
+.titre-section {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(26px, 3.6vw, 38px);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 18px;
+}
+
+/* Surtitre bleu ----------------------------------------------- */
+.surtitre {
+  font-family: var(--sans);
+  line-height: 1.4;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .01em;
+  color: var(--bleu);
+  margin: 0 0 14px;
+}
+
+/* Bouton pilule noir ------------------------------------------ */
+.pilule {
+  display: inline-block;
+  padding: 13px 30px;
+  border-radius: 999px;
+  background: var(--noir);
+  color: var(--blanc);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--noir);
+  transition: background .25s, color .25s;
+}
+.pilule:hover, .pilule:focus-visible { background: var(--blanc); color: var(--noir); }
+
+/* ---------------------------------------------------------
+   En-tête : une seule ligne, comme la première barre de son site.
+   Logo à gauche (il ramène à l'accueil : c'est là qu'on le cherche),
+   menu au centre — vraiment centré, colonnes latérales égales —, réseaux
+   à droite sur une ligne. Collé en haut de l'écran pendant le défilement :
+   le menu reste à portée sur cette longue page. Sur mobile, le menu passe
+   sous le logo et l'en-tête n'est plus collé (il prendrait trop de place).
+   --------------------------------------------------------- */
+.entete {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 14px var(--marge);
+  background: rgba(255, 255, 255, .94);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gris-clair);
+}
+/* les ancres (#services, #contact) ne doivent pas finir sous l'en-tête */
+html { scroll-padding-top: 112px; }
+
+.logo { justify-self: start; display: block; line-height: 0; border-radius: 4px; }
+.logo img, .logo svg { height: 72px; width: auto; }
+
+.entete nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px clamp(18px, 2.4vw, 34px);
+}
+.entete nav a {
+  font-family: var(--serif);
+  font-size: 15.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 4px 0 2px;
+  border-bottom: 1px solid transparent;
+  transition: border-color .25s, color .25s;
+}
+.entete nav a:hover,
+.entete nav a:focus-visible,
+.entete nav a[aria-current="page"] { border-color: var(--bleu); color: var(--bleu); }
+
+.reseaux { justify-self: end; display: flex; gap: 18px; }
+.reseaux a { color: var(--noir); line-height: 0; padding: 4px; margin: -4px; transition: color .25s; }
+.reseaux a:hover, .reseaux a:focus-visible { color: var(--bleu); }
+.reseaux svg { width: 20px; height: 20px; fill: currentColor; }
+
+/* sur grand écran, le conteneur du menu mobile n'existe pas pour la grille :
+   menu et réseaux restent ses colonnes du centre et de droite */
+.menu { display: contents; }
+.bouton-menu { display: none; }
+
+@media (max-width: 960px) {
+  .entete {
+    position: static;
+    grid-template-columns: auto 1fr;
+    row-gap: 8px;
+    padding-block: 12px 10px;
+  }
+  .entete nav { grid-column: 1 / -1; grid-row: 2; }
+  .logo img, .logo svg { height: 56px; }
+  html { scroll-padding-top: 0; }
+}
+
+/* --- Mobile : barre compacte collée en haut, logo + bouton « Menu » ;
+   le menu se déroule par-dessus la page, en grandes cibles pour le doigt. */
+@media (max-width: 760px) {
+  .entete {
+    position: sticky;
+    grid-template-columns: auto 1fr;
+    padding-block: 8px;
+  }
+  html { scroll-padding-top: 84px; }
+
+  .bouton-menu {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 8px 4px 8px 12px;
+    border: 0;
+    background: none;
+    color: var(--noir);
+    font: 500 14px/1 var(--sans);
+    letter-spacing: .04em;
+    cursor: pointer;
+  }
+  .bouton-menu:focus-visible { outline: 2px solid var(--bleu); outline-offset: 2px; border-radius: 6px; }
+  .burger { position: relative; width: 22px; height: 14px; }
+  .burger i {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform .25s ease, opacity .2s ease, top .25s ease;
+  }
+  .burger i:nth-child(1) { top: 0; }
+  .burger i:nth-child(2) { top: 6px; }
+  .burger i:nth-child(3) { top: 12px; }
+  /* ouvert : le burger devient une croix */
+  .entete.ouvert .burger i:nth-child(1) { top: 6px; transform: rotate(45deg); }
+  .entete.ouvert .burger i:nth-child(2) { opacity: 0; }
+  .entete.ouvert .burger i:nth-child(3) { top: 6px; transform: rotate(-45deg); }
+
+  .menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 4px var(--marge) 20px;
+    background: var(--blanc);
+    border-bottom: 1px solid var(--gris-clair);
+    box-shadow: 0 18px 30px -24px rgba(17, 19, 24, .45);
+  }
+  .entete.ouvert .menu { display: block; animation: deroule .22s ease-out; }
+  @keyframes deroule { from { opacity: 0; translate: 0 -8px; } }
+
+  .entete .menu nav { display: flex; flex-direction: column; gap: 0; }
+  .entete .menu nav a {
+    align-self: stretch;
+    padding: 14px 0;
+    font-size: 17px;
+    border-bottom: 1px solid var(--gris-clair);
+  }
+  .entete .menu nav a:last-child { border-bottom: 0; }
+  .entete .menu nav a[aria-current="page"] { border-bottom-color: var(--gris-clair); }
+  .entete .menu nav a:last-child[aria-current="page"] { border-bottom: 0; }
+  .entete .menu .reseaux { justify-content: flex-start; gap: 22px; padding-top: 14px; }
+  .entete .menu .reseaux svg { width: 24px; height: 24px; }
+}
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .entete.ouvert .menu { animation: none; }
+  .burger i { transition: none; }
+}
+
+/* ---------------------------------------------------------
+   Accroche
+   --------------------------------------------------------- */
+.accroche {
+  text-align: center;
+  padding: clamp(28px, 5vh, 56px) var(--marge) clamp(20px, 3vh, 34px);
+  max-width: 74ch;
+  margin: 0 auto;
+}
+.accroche { position: relative; }
+
+/* le coup de pinceau sous le titre, tracé une fois à l'arrivée */
+.orn-pinceau {
+  display: block;
+  width: min(420px, 72%);
+  height: 20px;
+  margin: -4px auto 14px;
+  overflow: visible;
+}
+.orn-pinceau path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: trace .9s .35s cubic-bezier(.6,.1,.3,1) forwards;
+}
+.orn-pinceau path + path { animation-delay: .6s; }
+@keyframes trace { to { stroke-dashoffset: 0; } }
+
+/* griffonnages de carnet, dans les marges de l'accroche */
+.griffonnage {
+  position: absolute;
+  opacity: .8;
+  pointer-events: none;
+}
+.griffonnage svg { width: 100%; height: auto; display: block; overflow: visible; }
+@media (max-width: 1060px) { .griffonnage { display: none; } }
+
+.accroche h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(30px, 4.6vw, 48px);
+  line-height: 1.15;
+  margin: 0 0 8px;
+  text-wrap: balance;
+}
+.accroche p {
+  margin: 0 auto;
+  color: var(--gris);
+  max-width: 62ch;
+}
+
+
+/* ---------------------------------------------------------
+   L'étagère
+   --------------------------------------------------------- */
+.etagere {
+  position: relative;
+  padding-bottom: clamp(34px, 6vh, 64px);
+  /* une couverture dépliée peut dépasser à droite : on la coupe plutôt
+     que de laisser apparaître une barre de défilement horizontale */
+  overflow-x: clip;
+}
+
+/* 180 = place de la tête de Manon debout au-dessus du plus haut livre.
+   Doit rester égal à RESERVE dans etagere.js. */
+.piste { padding: calc(180px * var(--echelle)) var(--marge) 0; }
+
+.rangee {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+  border-bottom: 3px solid var(--noir);
+  box-shadow: 0 14px 24px -18px rgba(17, 19, 24, .6);
+}
+
+/* --- un livre ------------------------------------------- */
+.livre {
+  --h: 320; --e: 60; --c: #888; --i: #fff;
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  width:  calc(var(--e) * 1px * var(--echelle));
+  height: calc(var(--h) * 1px * var(--echelle));
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  /* La perspective est portée par CHAQUE livre, pas par la rangée : sinon
+     les livres éloignés du centre sont vus sous un angle rasant et leur
+     couverture se projette à une largeur nulle. */
+  transform: perspective(1100px) rotateY(0deg);
+  text-decoration: none;
+
+  /* Entrée en scène. Volontairement une TRANSITION et non une @keyframes :
+     une animation CSS active sur `opacity` reste compositée et aplatit le
+     contexte `preserve-3d`, ce qui empêcherait la couverture de se déplier. */
+  opacity: 0;
+  translate: 0 26px;
+  transition:
+    transform .55s cubic-bezier(.2,.8,.25,1),
+    opacity   .55s ease                      var(--retard, 0ms),
+    translate .55s cubic-bezier(.2,.8,.25,1) var(--retard, 0ms);
+}
+
+.rangee.en-place .livre,
+.rangee.en-place .objet { opacity: 1; translate: 0 0; }
+
+/* --- les ornements de l'étagère : la plante et le chat -------
+   Ils se posent sur la tablette comme les livres ; `--pend` est la part
+   qui dépasse sous le plateau (les tiges de la plante). Devant le
+   personnage (z-index 1), qui passe donc derrière eux. */
+.objet {
+  --l: 100; --hh: 200; --pend: 0;
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  width:  calc(var(--l)  * 1px * var(--echelle));
+  height: calc(var(--hh) * 1px * var(--echelle));
+  margin-bottom: calc(var(--pend) * -1px * var(--echelle));
+  pointer-events: none;
+  opacity: 0;
+  translate: 0 26px;
+  transition:
+    opacity   .55s ease                      var(--retard, 0ms),
+    translate .55s cubic-bezier(.2,.8,.25,1) var(--retard, 0ms);
+}
+/* Minette et les plantes réagissent au survol : Manon vient les voir */
+.objet-chat, .objet-plante { pointer-events: auto; }
+
+/* --- Minette : son dessin en calques (voir ornements.js) ---------- */
+.objet .pile { position: absolute; left: 50%; bottom: 0; translate: -50% 0; display: block; overflow: visible; }
+.chat-dessin {
+  position: absolute;
+  top: 0;
+  transform-origin: 50% 100%;
+  animation: respire-chat 3.6s ease-in-out infinite;
+}
+@keyframes respire-chat { 0%, 100% { scale: 1 1; } 50% { scale: 1.006 1.014; } }
+.chat-dessin img, .chat-dessin svg, .chat-tete, .chat-yeux {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible;
+}
+
+/* la queue oscille, les yeux clignent de temps en temps */
+.chat-queue { animation: queue 3.8s ease-in-out infinite; }
+@keyframes queue { 0%, 100% { rotate: -5deg; } 50% { rotate: 7deg; } }
+.chat-yeux { animation: cligne 6.5s infinite; }
+@keyframes cligne { 0%, 93%, 100% { scale: 1 1; } 96% { scale: 1 .1; } }
+
+/* quand Manon attrape un livre, Minette tourne la tête vers elle (à
+   gauche) et ses pupilles se dilatent en la suivant */
+.chat-tete { transition: rotate .5s cubic-bezier(.34,.9,.3,1); }
+.rangee:has(.perso.attrape) .chat-tete { rotate: -4deg; }
+.pupille { transform-box: fill-box; transform-origin: center; transition: transform .35s ease; }
+.rangee:has(.perso.attrape) .pupille { transform: translateX(-1.2px) scale(2.1, 1.12); }
+
+/* caressée : elle ferme les yeux, tend la tête vers la main, la queue
+   s'emballe, un cœur s'envole */
+.chat-yeux { transition: opacity .2s ease; }
+.chat-yeux-fermes { opacity: 0; transition: opacity .2s ease; }
+.rangee:has(.perso.caresse) .chat-yeux { opacity: 0; transition-delay: .45s; }
+.rangee:has(.perso.caresse) .chat-yeux-fermes { opacity: 1; transition-delay: .45s; }
+/* (pas de translate vers le haut : le menton se décollait du corps) */
+.rangee:has(.perso.caresse) .chat-tete { rotate: 3deg; }
+.rangee:has(.perso.caresse) .chat-queue { animation-duration: 1.4s; }
+.chat-coeur { position: absolute; display: block; opacity: 0; transform-box: fill-box; }
+.chat-dessin .chat-coeur { inset: auto; height: auto; }
+.rangee:has(.perso.caresse) .chat-coeur { animation: coeur 1.7s ease-out .7s infinite; }
+@keyframes coeur {
+  0%   { opacity: 0; translate: 0 6px;    scale: .6; }
+  25%  { opacity: 1; }
+  100% { opacity: 0; translate: 8px -28px; scale: 1.1; }
+}
+
+/* --- les plantes. Arrosée, la monstera quitte ses couleurs d'automne et
+   reverdit (son dessin en vert, en fondu par-dessus) ; elle y revient
+   lentement une fois Manon partie. Le feuillage se redresse un peu. */
+.plante-calque {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform-origin: 50% 90%;
+}
+/* la monstera déborde : son dessin est plus large que sa place, et ses
+   feuilles passent devant les livres voisins */
+.objet.deborde { z-index: 2; }
+.objet.deborde .plante-calque { max-width: none; }   /* (img : max-width 100 % par défaut) */
+.plante-verte { opacity: 0; transition: opacity 6s ease; }
+.objet-plante.arrosee .plante-verte { opacity: 1; transition: opacity 2.4s ease 1.1s; }
+.rangee:has(.perso.arrose) .objet-plante.arrosee .plante-calque { animation: pousse 1.4s ease-in-out 1.1s infinite; }
+@keyframes pousse { 0%, 100% { scale: 1; } 50% { scale: 1.03; } }
+
+/* dos du livre */
+.dos {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+              rgba(0,0,0,.30) 0%, rgba(0,0,0,.04) 15%,
+              rgba(255,255,255,.12) 50%,
+              rgba(0,0,0,.10) 87%, rgba(0,0,0,.26) 100%),
+              var(--c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(17,19,24,.14);
+}
+
+/* filets bleus en haut et en bas du dos : la « surbrillance » */
+.livre.cliquable .dos::before,
+.livre.cliquable .dos::after {
+  content: "";
+  position: absolute;
+  left: 18%; right: 18%;
+  height: 2px;
+  background: var(--bleu);
+}
+.livre.cliquable .dos::before { top: 14px; }
+.livre.cliquable .dos::after  { bottom: 14px; }
+
+/* tranche supérieure (les pages) */
+.dos .tranche {
+  position: absolute;
+  top: 0; left: 2px; right: 2px;
+  height: 4px;
+  background: linear-gradient(#ffffff, #ccd3dc);
+  opacity: .6;
+}
+
+.dos .intitule {
+  writing-mode: vertical-rl;
+  font-family: var(--serif);
+  font-weight: 400;
+  /* plancher de 11 px : sous l'échelle 0,75 le titre du dos devient illisible */
+  font-size: max(11px, calc(15px * var(--echelle)));
+  letter-spacing: .05em;
+  color: var(--i);
+  white-space: nowrap;
+}
+
+/* couverture, repliée vers l'arrière au repos */
+.couv {
+  position: absolute;
+  top: 0; left: 100%;
+  /* --rc : rapport largeur/hauteur de la couverture (celui de son dessin) */
+  width:  calc(var(--h) * var(--rc, .66) * 1px * var(--echelle));
+  height: 100%;
+  transform-origin: left center;
+  transform: rotateY(90deg);
+  overflow: hidden;
+  background: var(--c);
+  box-shadow: 0 20px 40px -16px rgba(17,19,24,.55);
+}
+.couv img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* --- livres illustrés : ses dessins de dos et de couverture ---
+   Le dessin est posé à plat ; l'ombrage par-dessus arrondit le dos
+   (bords sombres, reflet au centre) et creuse la charnière de la
+   couverture, pour qu'il épouse la forme du livre quand il pivote. */
+.livre.illustre .dos {
+  background:
+    linear-gradient(90deg,
+      rgba(0,0,0,.34) 0%, rgba(0,0,0,.08) 12%,
+      rgba(255,255,255,.14) 46%, rgba(255,255,255,0) 60%,
+      rgba(0,0,0,.10) 86%, rgba(0,0,0,.30) 100%),
+    var(--img-dos) center / 100% 100% no-repeat,
+    var(--c);
+}
+.livre.illustre .dos::before,
+.livre.illustre .dos::after,
+.livre.illustre .intitule { display: none; }
+.livre.illustre .tranche { opacity: .35; height: 3px; }
+.livre.illustre .couv::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(0,0,0,.32) 0%, rgba(0,0,0,.06) 4%, rgba(255,255,255,.10) 6%,
+    rgba(255,255,255,0) 14%, rgba(0,0,0,0) 90%, rgba(0,0,0,.12) 100%);
+  pointer-events: none;
+}
+
+.couv .legende {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 30px 16px 16px;
+  background: linear-gradient(transparent, rgba(8,18,32,.78));
+  color: #fff;
+}
+.couv .legende strong {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: max(13px, calc(18px * var(--echelle)));
+  line-height: 1.15;
+}
+.couv .legende span {
+  display: block;
+  margin-top: 5px;
+  font-size: max(11px, calc(13px * var(--echelle)));
+  opacity: .85;
+}
+
+/* ouverture au survol / au focus clavier */
+.livre.cliquable:hover,
+.livre.cliquable:focus-visible {
+  /* levée volontairement faible (6 px) : c'est Manon qui le tire, et plus
+     le livre monte, moins elle a à tendre le bras. Voir LEVEE_LIVRE. */
+  transform: perspective(1100px) translateY(-6px) rotateY(-46deg);
+  z-index: 5;
+  outline: none;
+}
+.livre.cliquable:focus-visible .couv {
+  box-shadow: 0 0 0 3px var(--bleu), 0 20px 40px -16px rgba(17,19,24,.55);
+}
+
+/* livres de décor : présents mais discrets */
+.livre.decor { transition: opacity .4s ease, filter .4s ease; }
+.livre.decor .dos { box-shadow: inset 0 0 0 1px rgba(17,19,24,.10); }
+
+/* dès qu'on approche de l'étagère, le décor s'efface */
+/* Désaturés plutôt que rendus transparents : Manon se tient derrière,
+   on la verrait au travers. */
+.rangee:hover .livre.decor,
+.rangee:focus-within .livre.decor { filter: saturate(.35) brightness(1.05); }
+
+/* halo bleu sous les livres cliquables */
+.livre.cliquable::before {
+  content: "";
+  position: absolute;
+  left: 50%; bottom: -4px;
+  width: 200%; height: 42px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(18,104,196,.26), transparent 68%);
+  opacity: 0;
+  transition: opacity .45s ease;
+  pointer-events: none;
+}
+.rangee:hover .livre.cliquable::before,
+.rangee:focus-within .livre.cliquable::before { opacity: 1; }
+
+/* --- Manon, derrière l'étagère -----------------------------
+   Placée AVANT les livres dans la rangée : elle se peint derrière eux.
+   `--pieds` = hauteur de ses pieds au-dessus du plateau, en unités ;
+   personnage.js la baisse au repos et la redresse pour attraper. */
+.perso {
+  --pieds: 0;
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--pieds) * 1px * var(--echelle));
+  z-index: 0;
+  pointer-events: none;
+  /* ce qui passerait sous le plateau est coupé ; large marge ailleurs
+     pour ne pas couper le bras tendu */
+  clip-path: inset(-400px -600px calc(var(--pieds) * -1px * var(--echelle)) -600px);
+  transition: left .58s cubic-bezier(.34,.9,.3,1),
+              bottom .5s cubic-bezier(.34,.9,.3,1),
+              clip-path .5s cubic-bezier(.34,.9,.3,1);
+}
+.perso .silhouette {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+  transition: rotate .5s cubic-bezier(.34,.9,.3,1);
+  animation: respire 4.5s ease-in-out infinite;
+}
+.perso img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* Ses calques : au repos, son dessin où elle salue ; bras sorti, le corps
+   « bras tendu » et le bras qui pivote (origine posée par le script). Le
+   bras qui tient l'arrosoir remplace l'autre quand elle arrose. */
+.perso-bras, .perso-bras-arrosoir { transition: transform .5s cubic-bezier(.34,.9,.3,1); }
+.perso-bras, .perso-bras-arrosoir, .perso-corps { opacity: 0; }
+.perso.bras-sorti .perso-corps,
+.perso.bras-sorti:not(.arrose) .perso-bras,
+.perso.arrose .perso-bras-arrosoir { opacity: 1; }
+.perso.bras-sorti .perso-repos { opacity: 0; }
+
+/* elle se penche légèrement vers ce qu'elle attrape */
+.perso.bras-sorti .silhouette { rotate: 1.5deg; }
+
+/* la caresse : va-et-vient de la main sur la tête de Minette. On anime la
+   propriété `rotate`, qui s'ajoute à l'angle posé par le script dans
+   `transform` (même origine : le pivot du bras). */
+.perso.caresse .perso-bras { animation: caresse 1.1s ease-in-out .55s infinite; }
+@keyframes caresse { 0%, 100% { rotate: 0deg; } 50% { rotate: -6deg; } }
+
+/* les gouttes tombent du bec de l'arrosoir dans le feuillage (qui les cache) */
+.gouttes { position: absolute; width: 0; height: 0; }
+.gouttes i {
+  position: absolute;
+  left: 0; top: 0;
+  width: calc(6px * var(--echelle));
+  height: calc(9px * var(--echelle));
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: #5b93d4;
+  opacity: 0;
+}
+.gouttes i:nth-child(2) { left: calc(7px * var(--echelle)); }
+.gouttes i:nth-child(3) { left: calc(-7px * var(--echelle)); }
+.perso.arrose .gouttes i { animation: goutte .75s ease-in 1.1s infinite; }
+.perso.arrose .gouttes i:nth-child(2) { animation-delay: 1.35s; }
+.perso.arrose .gouttes i:nth-child(3) { animation-delay: 1.6s; }
+@keyframes goutte {
+  0%   { opacity: 0; translate: 0 0; }
+  15%  { opacity: 1; }
+  100% { opacity: 0; translate: 0 calc(44px * var(--echelle)); }
+}
+
+/* respiration au repos, balancement pendant qu'elle se déplace.
+   On anime `translate` (et non `transform`) pour ne pas écraser le
+   `rotate` du penché. */
+@keyframes respire {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -3px; }
+}
+.perso.marche .silhouette { animation: pas .3s ease-in-out infinite; }
+@keyframes pas {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -7px; }
+}
+
+/* ---------------------------------------------------------
+   Services
+   Une liste de définitions : ses intitulés en bleu (comme sur son site),
+   chacun avec son picto au trait, la description en regard. Des filets
+   séparent les lignes ; sur mobile, l'intitulé passe au-dessus.
+   --------------------------------------------------------- */
+.services {
+  padding: clamp(40px, 7vh, 84px) var(--marge);
+  border-top: 1px solid var(--gris-clair);
+}
+.services-intro {
+  max-width: 54ch;
+  margin: 0 auto clamp(26px, 4vh, 40px);
+  text-align: center;
+  color: var(--gris);
+}
+/* toutes les rangées ont la même hauteur (celle de la plus haute) : une
+   description d'une seule ligne ne fait plus une rangée plus mince */
+.services-liste {
+  display: grid;
+  grid-auto-rows: 1fr;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+}
+.service {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 6px clamp(20px, 4vw, 48px);
+  align-items: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--gris-clair);
+}
+.service:last-child { border-bottom: 1px solid var(--gris-clair); }
+.service dt {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--serif);
+  font-size: clamp(19px, 2vw, 22px);
+  line-height: 1.3;
+  color: var(--bleu);
+}
+.service .picto { width: 36px; flex: 0 0 auto; align-self: center; }
+.service .picto svg { width: 100%; height: auto; display: block; overflow: visible; }
+.service dd { margin: 0; }
+@media (max-width: 680px) {
+  .services-liste { grid-auto-rows: auto; }
+  .service { grid-template-columns: 1fr; }
+  .service dd { padding: 0 0 0 50px; color: var(--gris); }
+}
+.services-fin { max-width: 54ch; margin: clamp(24px, 4vh, 36px) auto 0; text-align: center; }
+.services-fin a {
+  color: var(--bleu);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.services-fin a:hover { color: var(--bleu-fonce); }
+
+/* ---------------------------------------------------------
+   Comment ça se passe
+   --------------------------------------------------------- */
+.methode { padding: clamp(40px, 7vh, 80px) var(--marge); border-top: 1px solid var(--gris-clair); }
+.methode .grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: clamp(22px, 3vw, 44px);
+  margin-top: clamp(26px, 4vh, 44px);
+}
+.etape .tete-etape { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.etape .picto { width: 42px; flex: 0 0 auto; }
+.etape .picto svg { width: 100%; height: auto; display: block; overflow: visible; }
+.etape .num {
+  display: block;
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1;
+  color: var(--bleu);
+}
+.etape h3 { font-size: 17.5px; font-weight: 500; margin: 0 0 8px; }
+.etape p  { margin: 0; color: var(--gris); font-size: 15.5px; }
+
+/* ---------------------------------------------------------
+   Appel à contact
+   --------------------------------------------------------- */
+.appel {
+  text-align: center;
+  padding: clamp(46px, 8vh, 92px) var(--marge);
+  background: var(--fond-doux);
+}
+.appel h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(24px, 3.4vw, 36px);
+  line-height: 1.25;
+  margin: 0 auto 16px;
+  max-width: 24ch;
+}
+.appel p { margin: 0 auto 30px; color: var(--gris); max-width: 52ch; }
+
+/* ---------------------------------------------------------
+   Page rayon
+   --------------------------------------------------------- */
+.retour {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14.5px;
+  color: var(--gris);
+  text-decoration: none;
+}
+.retour:hover { color: var(--bleu); }
+
+.cat-entete { padding: clamp(24px, 4vh, 44px) var(--marge) clamp(24px, 4vh, 40px); text-align: center; }
+.cat-entete .haut { display: flex; justify-content: center; margin-bottom: 26px; }
+.cat-entete .fil {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--bleu);
+  margin: 0 0 10px;
+}
+.cat-couv {
+  display: block;
+  width: clamp(120px, 15vw, 176px);
+  height: auto;
+  margin: 0 auto 26px;
+  border-radius: 2px 4px 4px 2px;
+  box-shadow: inset 6px 0 8px -6px rgba(0,0,0,.4), 0 18px 34px -16px rgba(17,19,24,.55);
+}
+.cat-entete .chapeau { margin: 0 auto; color: var(--gris); max-width: 58ch; }
+
+.galerie {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: clamp(18px, 2.6vw, 34px);
+  padding: 0 var(--marge) clamp(40px, 7vh, 80px);
+}
+.oeuvre { margin: 0; }
+.oeuvre .cadre {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--fond-doux);
+  transition: transform .4s cubic-bezier(.2,.8,.25,1);
+}
+.oeuvre:hover .cadre { transform: translateY(-5px); }
+.oeuvre img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.oeuvre h2 { font-family: var(--serif); font-weight: 400; font-size: 20px; margin: 16px 0 3px; }
+.oeuvre p  { margin: 0; font-size: 14px; letter-spacing: .04em; color: var(--gris); }
+
+.voisines {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--gris-clair);
+  margin: 0 var(--marge);
+  padding: 30px 0 60px;
+}
+.voisines.seule { justify-content: center; text-align: center; }
+.voisines a { text-decoration: none; }
+.voisines .etiq { display: block; font-size: 14px; color: var(--gris); margin-bottom: 4px; }
+.voisines .nom-cat { font-family: var(--serif); font-size: clamp(19px, 2.6vw, 26px); }
+.voisines a:hover .nom-cat { color: var(--bleu); }
+
+/* ---------------------------------------------------------
+   Pied de page
+   --------------------------------------------------------- */
+.pied {
+  padding: 34px var(--marge) 46px;
+  border-top: 1px solid var(--gris-clair);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: var(--gris);
+}
+.pied a { text-decoration: none; }
+.pied a:hover { color: var(--bleu); }
+
+/* Retour en haut ------------------------------------------- */
+.haut-de-page {
+  position: fixed;
+  right: 22px; bottom: 22px;
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--fond-doux);
+  color: var(--noir);
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s, background .25s;
+}
+.haut-de-page.visible { opacity: 1; pointer-events: auto; }
+.haut-de-page:hover { background: var(--bleu-pale); color: var(--bleu); }
+
+/* ---------------------------------------------------------
+   Écrans tactiles : pas de survol possible
+   --------------------------------------------------------- */
+@media (hover: none) {
+  /* Une couverture dépliée serait masquée par les livres voisins sur un
+     écran étroit : on garde les livres droits et le tap va directement
+     au rayon. */
+  .livre.cliquable::before { opacity: .9; }
+  .livre.decor { filter: saturate(.5); }
+  .livre.cliquable:active { transform: perspective(1100px) translateY(-10px) rotateY(-18deg); }
+  .couv { display: none; }
+}
+
+/* ---------------------------------------------------------
+   Accessibilité : mouvement réduit
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .livre { opacity: 1; translate: 0 0; transition: none; }
+  .couv, .oeuvre .cadre, .perso, .perso-bras, .perso-bras-arrosoir, .perso .silhouette,
+  .chat-tete, .pupille, .plante-verte { transition-duration: .01ms !important; }
+  .objet { opacity: 1; translate: 0 0; transition: none; }
+  .chat-dessin, .chat-queue, .chat-yeux, .plante-calque, .perso .silhouette,
+  .perso-bras, .chat-coeur, .gouttes i { animation: none !important; }
+  .orn-pinceau path { animation: none; stroke-dashoffset: 0; }
+  .livre.cliquable:hover,
+  .livre.cliquable:focus-visible { transform: perspective(1100px) translateY(-8px) rotateY(-46deg); }
+}
