@@ -59,7 +59,7 @@
   function livreCategorie(cat) {
     const el = document.createElement("a");
     el.className = "livre cliquable";
-    el.href = cat.lien || "categorie.html?cat=" + encodeURIComponent(cat.id);
+    el.href = cat.lien || PORTFOLIO.artiste.site;   // sa page sur son site Adobe Portfolio
     el.setAttribute("aria-label", cat.titre + " — " + cat.soustitre);
     el.style.setProperty("--h", cat.hauteur);
     el.style.setProperty("--e", cat.epaisseur);
@@ -88,7 +88,7 @@
     el.querySelector(".intitule").textContent = cat.titre;
     if (!cat.couverture) {
       el.querySelector(".legende strong").textContent = cat.titre;
-      el.querySelector(".legende span").textContent = cat.oeuvres.length + " projets";
+      el.querySelector(".legende span").textContent = cat.soustitre;
     }
 
     // la couverture prend exactement les proportions de son dessin

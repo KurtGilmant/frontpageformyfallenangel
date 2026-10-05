@@ -14,19 +14,23 @@ Pas de framework, pas d'étape de compilation, aucune dépendance à installer.
 
 ---
 
-## ⚠️ À valider / compléter avant mise en ligne
+## Ce site et son site Adobe Portfolio
 
-Tout se trouve dans [`data/livres.js`](data/livres.js).
+Ce dépôt n'est que la **page d'accueil**. Tout le reste est son site Adobe
+Portfolio, [inkanostudio.com](https://inkanostudio.com) — et son menu y
+ramène ici par « Accueil ». Les branchements, relevés sur son site, sont tous
+dans [`data/livres.js`](data/livres.js) :
 
-| Quoi | Où | État |
+| Quoi | Où | Mène à |
 |---|---|---|
-| Adresse email | `artiste.email` | **vide** → le bouton « Me contacter » reste masqué tant qu'il n'a ni email ni page Contact |
-| LinkedIn / Instagram / TikTok | `artiste.reseaux` | **vides** (les icônes disparaissent tant qu'elles le sont) |
-| URLs des pages du menu | `navigation` | **vides** → pointent vers le rayon du même nom ou vers la section de l'accueil |
-| URL de sa page « Édition adulte » / « Édition jeunesse » | `categories[].lien` | **vides** → page de rayon locale |
-| URL de sa page « À propos » | `navigation` | **vide** → le lien du menu ramène à l'accueil (le bloc « Qui suis-je ? » a été retiré de l'accueil) |
-| Visuels des projets | `couverture` / `image` | vides → visuels d'attente générés |
-| Nom des rayons | `categories[].titre` | **« Édition adulte / jeunesse » (son menu) alors que ses livres disent « Littérature générale / jeunesse »** — à trancher avec elle |
+| Les deux livres de l'étagère | `categories[].lien` | ses pages « Littérature générale » et « Littérature jeunesse » |
+| Le menu (même entrées que le sien) | `navigation` | ses pages, « Accueil » restant ici |
+| « Me contacter », « écris-moi pour qu'on en parle » | `navigation` (Contact) | son formulaire de contact (pas d'email public) |
+| Icônes LinkedIn / Instagram / TikTok | `artiste.reseaux` | ses comptes |
+| Pied de page | `artiste.studio`, `artiste.legal` | « © Inkano Studio — Manon Amen », ses mentions légales et sa politique de confidentialité |
+
+**Si elle renomme une page sur Adobe Portfolio, son adresse change** : la
+mettre à jour ici (la constante `SITE` en tête du fichier donne le domaine).
 
 **Les textes, eux, sont les siens**, repris mot pour mot :
 
@@ -54,7 +58,7 @@ Son nom complet, **Manon Amen**, est repris de la signature de ses couvertures
 ### Ajouter un rayon
 
 Les livres cliquables sont posés au **centre** de la tablette. Il y en a deux
-pour l'instant : `Édition adulte` et `Édition jeunesse`. Pour en ajouter un,
+pour l'instant : `Littérature générale` et `Littérature jeunesse`. Pour en ajouter un,
 copier un bloc de `categories` dans `data/livres.js` et le coller à la suite :
 
 ```js
@@ -62,12 +66,10 @@ copier un bloc de `categories` dans `data/livres.js` et le coller à la suite :
   id: "beaux-livres",            // identifiant unique, sans accent ni espace
   titre: "Beaux livres",
   soustitre: "Couvertures",
-  lien: "",                      // URL de sa vraie page, ou vide
+  lien: SITE + "/beaux-livres",  // sa page sur son site Adobe Portfolio
   couleur: "#0e4e96", encre: "#ffffff",
   hauteur: 344, epaisseur: 82,   // hauteur 280-380, épaisseur 60-110
-  couverture: "",
-  description: "…",
-  oeuvres: [ { titre: "…", meta: "…", image: "" } ],
+  dos: "", couverture: "",       // ses dessins (voir « Ses dessins »)
 }
 ```
 
@@ -80,9 +82,6 @@ Elle s'ajuste aussi à la **hauteur** de l'écran : les livres rapetissent (jusq
 60 % de leur taille) pour que la tablette entière soit visible dès l'arrivée sur
 la page, sans faire défiler — y compris sur un portable 1280×720.
 
-`lien` vide fait pointer le livre vers une page de rayon locale
-(`categorie.html?cat=…`), pratique tant que sa vraie page n'existe pas. Dès
-qu'elle existe, coller son URL dans `lien`.
 
 ### Ses dessins
 
@@ -204,52 +203,31 @@ ornements: {
 
 ## Le système graphique
 
-Repris des captures de son site, regroupé dans le `:root` de
+**Mesuré sur son site** (inkanostudio.com), regroupé dans le `:root` de
 [`assets/css/style.css`](assets/css/style.css) :
 
 ```css
---bleu:       #1268c4;   /* logo, sous-titres, liens */
+--bleu:       #0071bc;   /* ses sous-titres (« Qui suis-je ? »), liens */
 --noir:       #111318;   /* texte */
---gris:       #8a8a8a;   /* texte secondaire */
+--gris:       #707070;   /* texte secondaire */
 --gris-clair: #e6e8ec;   /* filets */
 --fond-doux:  #f7f9fb;   /* bandeaux */
---serif: "Playfair Display", …   /* titres */
---sans:  "Jost", …               /* texte courant */
+--serif: "Cormorant Garamond", …   /* titres, menu : la même que son site */
+--sans:  "Nunito", …               /* texte courant */
 ```
 
-**Un écart volontaire** : son site utilise `#8a8a8a` pour le texte secondaire,
-qui n'atteint que 3,45:1 de contraste sur blanc (le minimum d'accessibilité
-WCAG AA est 4,5:1). Il est assombri à `#707070` (5:1) — la différence se voit à
-peine. Pour revenir à l'original, une ligne dans `:root`.
+**Les polices.** Son site utilise **Cormorant Garamond** (titres, menu) et
+**Clone Rounded Latin** (texte, boutons), servies par Adobe Fonts. Cormorant
+Garamond est aussi sur Google Fonts : c'est exactement la même ici. Clone
+Rounded Latin n'existe que chez Adobe Fonts, et la licence d'Adobe Portfolio
+ne vaut que pour son domaine : **Nunito**, ronde elle aussi, la remplace. Avec
+son abonnement Creative Cloud, elle peut créer un « projet web » Adobe Fonts
+pour ce site-ci : il suffirait alors de remplacer le lien Google Fonts par
+celui du projet et `"Nunito"` par `"clone-rounded-latin"`.
 
-**Les deux polices sont une approximation** lue sur les captures d'écran. Si
-elle connaît les vraies (son éditeur de site les affiche dans les réglages de
-typographie), il suffit de changer ces deux lignes et l'URL Google Fonts en
-tête des deux fichiers HTML.
-
-Le bleu, lui, a été prélevé sur le logo et sur ses sous-titres « Qui suis-je ? ».
-
----
-
-## Mettre ses vraies images
-
-1. Déposer les fichiers dans `assets/images/`.
-2. Renseigner le chemin dans `data/livres.js` :
-
-```js
-{ id: "imaginaire", …, couverture: "assets/images/couv-imaginaire.jpg",
-  oeuvres: [
-    { titre: "Le Nom du livre", meta: "Couverture — 2025",
-      image: "assets/images/nom-du-livre.jpg" },
-  ]
-}
-```
-
-Tant qu'un champ est vide, un visuel d'attente est généré dans le bleu du
-rayon. Rien ne casse si les images manquent — elles peuvent arriver une par une.
-
-Formats conseillés : **JPG ou WebP, 1600 px de large max, < 300 Ko**.
-Les couvertures rendent mieux en portrait (ratio ~2:3).
+**Un écart volontaire** : son site écrit le texte courant en gris `#999999`,
+qui n'atteint que 2,8:1 de contraste sur blanc (le minimum d'accessibilité
+WCAG AA est 4,5:1). Ici il est assombri à `#707070` (5:1).
 
 ---
 
@@ -281,8 +259,7 @@ Branch : `main` / `root` → Save**. Publié quelques minutes plus tard sur
 ## Comment c'est fait
 
 ```
-index.html          accueil : accroche, étagère, qui suis-je, méthode, contact
-categorie.html      gabarit unique des rayons (lit ?cat=… dans l'URL)
+index.html          l'accueil : accroche, étagère, services, méthode, contact
 data/livres.js      LE contenu : identité, menu, sections, rayons, méthode
 assets/css/style.css
 assets/js/
@@ -292,8 +269,7 @@ assets/js/
   personnage.js     Manon : placement, marche, ses trois gestes
   dessins-geometrie.js   généré par outils/preparer_images.py
   ornements.js      Minette, les plantes, le pinceau, les griffonnages, les pictos
-  categorie.js      remplit la page rayon
-  placeholder.js    visuels d'attente générés en SVG
+  placeholder.js    couverture d'attente pour un rayon sans dessin
 assets/images/      les images du site (générées)
 assets/images/originaux/  ses dessins d'origine
 outils/preparer_images.py prépare les images depuis les originaux

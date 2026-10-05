@@ -28,22 +28,20 @@
     const contenu = A.logo
       ? '<img src="' + A.logo + '" alt="' + A.nom + '">'
       : '<svg viewBox="0 0 100 100" role="img" aria-label="' + A.nom + '">' +
-        '<circle cx="50" cy="50" r="48" fill="#1268c4"/>' +
-        '<text x="50" y="50" fill="#fff" font-family="Playfair Display, Georgia, serif" ' +
+        '<circle cx="50" cy="50" r="48" fill="#0071bc"/>' +
+        '<text x="50" y="50" fill="#fff" font-family="Cormorant Garamond, Georgia, serif" ' +
         'font-size="46" text-anchor="middle" dominant-baseline="central">' +
         A.prenom.charAt(0) + "</text></svg>";
     return '<a class="logo" href="index.html" aria-label="' + A.nom + ' — accueil">' + contenu + "</a>";
   }
 
   /* Un lien de menu laissé vide ne doit pas mener nulle part : on le fait
-     pointer vers l'équivalent le plus proche sur ce site — le rayon du même
-     nom, ou la section de l'accueil (« Contact » -> #contact). Sans
-     équivalent (« À propos », tant que l'URL de sa page n'est pas
-     renseignée) : l'accueil. */
+     pointer vers l'équivalent le plus proche — le rayon du même nom, la
+     section de l'accueil (« Contact » -> #contact), sinon l'accueil. */
   function lienParDefaut(label) {
     const nom = label.toLowerCase();
     const rayon = PORTFOLIO.categories.find((c) => c.titre.toLowerCase() === nom);
-    if (rayon) return rayon.lien || "categorie.html?cat=" + encodeURIComponent(rayon.id);
+    if (rayon) return rayon.lien || A.site;
     const ancre = { "contact": "contact" }[nom];
     if (ancre) return (document.getElementById(ancre) ? "" : "index.html") + "#" + ancre;
     return "index.html";
@@ -95,12 +93,12 @@
 
   const pied = document.querySelector("[data-pied]");
   if (pied) {
-    const mail = A.email
-      ? '<a href="mailto:' + A.email + '">' + A.email + "</a>"
-      : "<span></span>";
+    // comme le pied de page de son site : « © année Inkano Studio — Manon Amen »,
+    // ses mentions légales et sa politique de confidentialité
+    const legal = (A.legal || []).map((l) => '<a href="' + l.lien + '">' + l.label + "</a>").join("");
     pied.innerHTML =
-      "<span>© " + new Date().getFullYear() + " " + A.nom + "</span>" +
-      mail + blocReseaux();
+      "<span>© " + new Date().getFullYear() + " " + (A.studio ? A.studio + " — " : "") + A.nom + "</span>" +
+      (legal ? '<span class="legal">' + legal + "</span>" : "<span></span>") + blocReseaux();
   }
 
   /* --- Boutons « Me contacter » ------------------------------

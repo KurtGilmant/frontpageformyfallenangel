@@ -3,100 +3,88 @@
    -------------------------------------------------------------
    Toute la page est générée à partir d'ici. Pas de HTML à toucher.
 
-   ⚠️  Les TEXTES sont repris mot pour mot du site existant de Manon
-       (accueil, à propos, contact). Rien n'a été inventé.
-       Les champs vides sont à compléter : voir le README.
+   Ce site n'est que la PAGE D'ACCUEIL. Tout le reste est son site
+   Adobe Portfolio, https://inkanostudio.com : les livres, le menu,
+   le bouton de contact et le pied de page y mènent. Si elle renomme
+   une page sur Adobe Portfolio, mettre son adresse à jour ici.
+
+   ⚠️  Les TEXTES sont repris mot pour mot de son site. Rien n'a été
+       inventé.
    ============================================================= */
+
+const SITE = "https://inkanostudio.com";
 
 const PORTFOLIO = {
 
   /* --- Identité -------------------------------------------- */
   artiste: {
     prenom: "Manon",
-    nom: "Manon Amen",                          // tel qu'elle signe ses couvertures
-    metier: "Illustratrice & graphiste spécialisée en édition",
+    nom: "Manon Amen",
+    studio: "Inkano Studio",                    // signature de son pied de page
+    site: SITE + "/",
     titre: "Hello, moi c'est Manon !",
     intro:
       "Je suis illustratrice et graphiste spécialisée en édition. Je dessine depuis " +
       "toujours, je lis depuis toujours et un jour j'ai réalisé que je pouvais faire " +
       "les deux en même temps. Ce que je fais : des illustrations jeunesse et des " +
       "couvertures de livres qui donnent envie de lire.",
-    email: "",                                  // ← à renseigner
+    email: "",                                  // pas d'email public : sa page Contact a un formulaire
     logo: "assets/images/logo.png",             // son portrait au pinceau (outils/preparer_images.py)
     reseaux: {
-      linkedin: "",                             // ← coller les URL de son site
-      instagram: "",
-      tiktok: "",
+      linkedin:  "https://www.linkedin.com/in/manon-amen-b93523399/",
+      instagram: "https://www.instagram.com/inkano_studio/",
+      tiktok:    "https://www.tiktok.com/@inkano_studio",
     },
+    // liens du pied de page, comme sur son site
+    legal: [
+      { label: "Mentions légales",             lien: SITE + "/mentions-legales-1" },
+      { label: "Politique de confidentialité", lien: SITE + "/copie-de-mentions-legales" },
+    ],
   },
 
-  /* --- Menu de navigation -----------------------------------
-     `lien` vide = ancre vers une section de cette page. Remplacer
-     par l'URL de la page correspondante du site dès qu'elle existe.
-  ----------------------------------------------------------- */
+  /* --- Menu de navigation : le même que sur son site --------- */
   navigation: [
-    { label: "Accueil",          lien: "index.html" },
-    { label: "Édition adulte",   lien: "" },
-    { label: "Édition jeunesse", lien: "" },
-    { label: "À propos",         lien: "" },
-    { label: "Contact",          lien: "" },
+    { label: "Accueil",              lien: "index.html" },
+    { label: "Littérature générale", lien: SITE + "/edition-adulte-1" },
+    { label: "Littérature jeunesse", lien: SITE + "/edition-jeunesse-1" },
+    { label: "À propos",             lien: SITE + "/a-propos" },
+    { label: "Contact",              lien: SITE + "/contact" },
   ],
 
   /* --- LES LIVRES DE L'ÉTAGÈRE ------------------------------
      Ils sont posés au CENTRE de la tablette, entourés de livres de
-     décor. Pour en ajouter un : copier un bloc ci-dessous et le
-     coller à la suite. L'étagère se recentre et retire
-     automatiquement des livres de décor pour faire de la place.
+     décor. Chacun mène à sa page sur son site. Pour en ajouter un :
+     copier un bloc ci-dessous et le coller à la suite. L'étagère se
+     recentre et retire automatiquement des livres de décor.
 
-     lien      : URL de sa vraie page. Vide = page de rayon locale
-                 (categorie.html?cat=…), utile tant qu'elle n'existe pas.
+     lien      : URL de sa page sur son site
      dos       : son dessin du dos du livre (image verticale)
      couverture: son dessin de la couverture
      hauteur / epaisseur : garder le MÊME rapport que l'image du dos,
                  sinon son dessin est déformé. Ses dos font 591×2480 px,
                  soit épaisseur = hauteur × 0,238 (360 → 86).
-     couleur   : teinte de repli, reprise aussi pour les visuels d'attente
-                 de la page du rayon
+     couleur   : teinte de repli (sans dessin du dos)
   ----------------------------------------------------------- */
   categories: [
     {
-      id: "edition-adulte",
-      titre: "Édition adulte",
+      id: "litterature-generale",
+      titre: "Littérature générale",
       soustitre: "Couvertures",
-      lien: "",
+      lien: SITE + "/edition-adulte-1",
       couleur: "#21403a", encre: "#e3c27a",
       hauteur: 360, epaisseur: 86,
       dos: "assets/images/dos-litterature-generale.jpg",
       couverture: "assets/images/couv-litterature-generale.jpg",
-      description:
-        "Les couvertures de littérature adulte et YA, dans tous les registres. " +
-        "Composition, typographie et image travaillées ensemble, jamais l'une " +
-        "après l'autre.",
-      oeuvres: [
-        { titre: "Projet à venir", meta: "Couverture — à compléter", image: "" },
-        { titre: "Projet à venir", meta: "Couverture — à compléter", image: "" },
-        { titre: "Projet à venir", meta: "Couverture — à compléter", image: "" },
-      ],
     },
     {
-      id: "edition-jeunesse",
-      titre: "Édition jeunesse",
+      id: "litterature-jeunesse",
+      titre: "Littérature jeunesse",
       soustitre: "Illustration",
-      lien: "",
+      lien: SITE + "/edition-jeunesse-1",
       couleur: "#6fb6e4", encre: "#f26522",
       hauteur: 360, epaisseur: 86,
       dos: "assets/images/dos-litterature-jeunesse.jpg",
       couverture: "assets/images/couv-litterature-jeunesse.jpg",
-      description:
-        "L'illustration jeunesse pour les tout-petits. Mon autre casquette " +
-        "d'animatrice périscolaire me donne une longueur d'avance sur ce qui fait " +
-        "vraiment briller les yeux des enfants, et ça change tout quand on illustre " +
-        "pour eux.",
-      oeuvres: [
-        { titre: "Projet à venir", meta: "Album — à compléter", image: "" },
-        { titre: "Projet à venir", meta: "Album — à compléter", image: "" },
-        { titre: "Projet à venir", meta: "Album — à compléter", image: "" },
-      ],
     },
   ],
 

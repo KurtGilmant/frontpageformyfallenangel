@@ -12,7 +12,7 @@
    l'échelle 1, comme les livres. */
 
 const ORNEMENTS = (function () {
-  const BLEU = "#1268c4";
+  const BLEU = "#0071bc";
 
   /* ---------- Ses dessins sur l'étagère : Minette et les plantes ----------
      Images tirées de ses originaux par outils/preparer_images.py ; leurs

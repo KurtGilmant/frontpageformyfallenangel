@@ -9,8 +9,8 @@
   /* Couleurs ------------------------------------------------ */
   --blanc:       #ffffff;
   --noir:        #111318;
-  --bleu:        #1268c4;   /* bleu du logo et des sous-titres */
-  --bleu-fonce:  #0b4a8f;
+  --bleu:        #0071bc;   /* bleu de ses sous-titres, mesuré sur son site */
+  --bleu-fonce:  #005a96;
   --bleu-pale:   #eaf2fb;
   /* Texte secondaire. Son site utilise #8a8a8a, mais ce gris n'atteint que
      3,45:1 sur blanc (WCAG AA exige 4,5:1) : assombri juste assez, 5:1. */
@@ -19,8 +19,12 @@
   --fond-doux:   #f7f9fb;
 
   /* Typographie --------------------------------------------- */
-  --serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
-  --sans:  "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Son site (Adobe Portfolio) : Cormorant Garamond pour les titres et le
+     menu — la même, servie ici par Google Fonts — et Clone Rounded Latin
+     pour le texte. Celle-ci n'existe que chez Adobe Fonts, réservée à son
+     domaine : Nunito, ronde elle aussi, la remplace. */
+  --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --sans:  "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   /* Échelle des livres (réduite sur petits écrans) ----------- */
   --echelle: 1;
@@ -226,7 +230,7 @@ html { scroll-padding-top: 112px; }
   .entete .menu nav a:last-child { border-bottom: 0; }
   .entete .menu nav a[aria-current="page"] { border-bottom-color: var(--gris-clair); }
   .entete .menu nav a:last-child[aria-current="page"] { border-bottom: 0; }
-  .entete .menu .reseaux { justify-content: flex-start; gap: 22px; padding-top: 14px; }
+  .entete .menu .reseaux { justify-self: stretch; justify-content: flex-start; gap: 22px; padding-top: 14px; }
   .entete .menu .reseaux svg { width: 24px; height: 24px; }
 }
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
@@ -272,7 +276,7 @@ html { scroll-padding-top: 112px; }
 
 .accroche h1 {
   font-family: var(--serif);
-  font-weight: 400;
+  font-weight: 600;                 /* ses titres de page : Cormorant 600 */
   font-size: clamp(30px, 4.6vw, 48px);
   line-height: 1.15;
   margin: 0 0 8px;
@@ -567,7 +571,7 @@ html { scroll-padding-top: 112px; }
   left: 50%; bottom: -4px;
   width: 200%; height: 42px;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(18,104,196,.26), transparent 68%);
+  background: radial-gradient(ellipse at center, rgba(0,113,188,.26), transparent 68%);
   opacity: 0;
   transition: opacity .45s ease;
   pointer-events: none;
@@ -752,74 +756,10 @@ html { scroll-padding-top: 112px; }
   font-size: clamp(24px, 3.4vw, 36px);
   line-height: 1.25;
   margin: 0 auto 16px;
-  max-width: 24ch;
+  max-width: 30ch;
+  text-wrap: balance;   /* pas de « tête ? » seul sur sa ligne */
 }
 .appel p { margin: 0 auto 30px; color: var(--gris); max-width: 52ch; }
-
-/* ---------------------------------------------------------
-   Page rayon
-   --------------------------------------------------------- */
-.retour {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 14.5px;
-  color: var(--gris);
-  text-decoration: none;
-}
-.retour:hover { color: var(--bleu); }
-
-.cat-entete { padding: clamp(24px, 4vh, 44px) var(--marge) clamp(24px, 4vh, 40px); text-align: center; }
-.cat-entete .haut { display: flex; justify-content: center; margin-bottom: 26px; }
-.cat-entete .fil {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--bleu);
-  margin: 0 0 10px;
-}
-.cat-couv {
-  display: block;
-  width: clamp(120px, 15vw, 176px);
-  height: auto;
-  margin: 0 auto 26px;
-  border-radius: 2px 4px 4px 2px;
-  box-shadow: inset 6px 0 8px -6px rgba(0,0,0,.4), 0 18px 34px -16px rgba(17,19,24,.55);
-}
-.cat-entete .chapeau { margin: 0 auto; color: var(--gris); max-width: 58ch; }
-
-.galerie {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-  gap: clamp(18px, 2.6vw, 34px);
-  padding: 0 var(--marge) clamp(40px, 7vh, 80px);
-}
-.oeuvre { margin: 0; }
-.oeuvre .cadre {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: var(--fond-doux);
-  transition: transform .4s cubic-bezier(.2,.8,.25,1);
-}
-.oeuvre:hover .cadre { transform: translateY(-5px); }
-.oeuvre img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.oeuvre h2 { font-family: var(--serif); font-weight: 400; font-size: 20px; margin: 16px 0 3px; }
-.oeuvre p  { margin: 0; font-size: 14px; letter-spacing: .04em; color: var(--gris); }
-
-.voisines {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  border-top: 1px solid var(--gris-clair);
-  margin: 0 var(--marge);
-  padding: 30px 0 60px;
-}
-.voisines.seule { justify-content: center; text-align: center; }
-.voisines a { text-decoration: none; }
-.voisines .etiq { display: block; font-size: 14px; color: var(--gris); margin-bottom: 4px; }
-.voisines .nom-cat { font-family: var(--serif); font-size: clamp(19px, 2.6vw, 26px); }
-.voisines a:hover .nom-cat { color: var(--bleu); }
 
 /* ---------------------------------------------------------
    Pied de page
@@ -836,6 +776,7 @@ html { scroll-padding-top: 112px; }
   color: var(--gris);
 }
 .pied a { text-decoration: none; }
+.pied .legal { display: flex; flex-wrap: wrap; gap: 6px 22px; }
 .pied a:hover { color: var(--bleu); }
 
 /* Retour en haut ------------------------------------------- */

@@ -54,7 +54,9 @@
     const [avant, lien, apres] = sv.conclusion;
     const fin = zone.querySelector(".services-fin");
     const a = document.createElement("a");
-    a.href = "#contact";
+    // directement à son formulaire de contact s'il est connu, sinon à l'appel
+    const contact = (PORTFOLIO.navigation || []).find((n) => n.label === "Contact");
+    a.href = (contact && contact.lien) || "#contact";
     a.textContent = lien;
     fin.append(avant, a, apres);
   }
