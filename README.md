@@ -213,17 +213,18 @@ ornements: {
 --gris-clair: #e6e8ec;   /* filets */
 --fond-doux:  #f7f9fb;   /* bandeaux */
 --serif: "Cormorant Garamond", …   /* titres, menu : la même que son site */
---sans:  "Nunito", …               /* texte courant */
+--sans:  "Fira Sans", …            /* texte courant (300) */
 ```
 
 **Les polices.** Son site utilise **Cormorant Garamond** (titres, menu) et
 **Clone Rounded Latin** (texte, boutons), servies par Adobe Fonts. Cormorant
 Garamond est aussi sur Google Fonts : c'est exactement la même ici. Clone
 Rounded Latin n'existe que chez Adobe Fonts, et la licence d'Adobe Portfolio
-ne vaut que pour son domaine : **Nunito**, ronde elle aussi, la remplace. Avec
+ne vaut que pour son domaine : **Fira Sans Light** la remplace (comparées côte à
+côte : mêmes formes, même chasse). Avec
 son abonnement Creative Cloud, elle peut créer un « projet web » Adobe Fonts
 pour ce site-ci : il suffirait alors de remplacer le lien Google Fonts par
-celui du projet et `"Nunito"` par `"clone-rounded-latin"`.
+celui du projet et `"Fira Sans"` par `"clone-rounded-latin"`.
 
 **Un écart volontaire** : son site écrit le texte courant en gris `#999999`,
 qui n'atteint que 2,8:1 de contraste sur blanc (le minimum d'accessibilité

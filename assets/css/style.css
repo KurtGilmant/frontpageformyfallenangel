@@ -22,9 +22,10 @@
   /* Son site (Adobe Portfolio) : Cormorant Garamond pour les titres et le
      menu — la même, servie ici par Google Fonts — et Clone Rounded Latin
      pour le texte. Celle-ci n'existe que chez Adobe Fonts, réservée à son
-     domaine : Nunito, ronde elle aussi, la remplace. */
+     domaine : Fira Sans Light la remplace — comparées côte à côte sur son
+     site, mêmes formes, même chasse (les lignes se coupent aux mêmes mots). */
   --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
-  --sans:  "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sans:  "Fira Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   /* Échelle des livres (réduite sur petits écrans) ----------- */
   --echelle: 1;
@@ -43,9 +44,9 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: var(--sans);
-  font-weight: 400;
-  font-size: 16.5px;
-  line-height: 1.75;
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.7;
   color: var(--noir);
   background: var(--blanc);
   -webkit-font-smoothing: antialiased;
@@ -59,8 +60,8 @@ img { max-width: 100%; }
 .titre-section {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(26px, 3.6vw, 38px);
-  letter-spacing: .06em;
+  font-size: clamp(24px, 3vw, 30px);   /* ses titres de page : 30 px */
+  color: #111;
   text-transform: uppercase;
   text-align: center;
   margin: 0 0 18px;
@@ -78,164 +79,155 @@ img { max-width: 100%; }
 }
 
 /* Bouton pilule noir ------------------------------------------ */
+/* comme ses boutons : 40 px de haut, #282828, bleu au survol */
 .pilule {
   display: inline-block;
-  padding: 13px 30px;
-  border-radius: 999px;
-  background: var(--noir);
+  height: 40px;
+  padding: 0 30px;
+  border-radius: 100px;
+  background: #282828;
   color: var(--blanc);
-  font-size: 15px;
-  font-weight: 500;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 40px;
   text-decoration: none;
-  border: 1px solid var(--noir);
-  transition: background .25s, color .25s;
+  transition: background .2s;
 }
-.pilule:hover, .pilule:focus-visible { background: var(--blanc); color: var(--noir); }
+.pilule:hover, .pilule:focus-visible { background: rgba(0, 113, 188, .8); color: var(--blanc); }
 
 /* ---------------------------------------------------------
-   En-tête : une seule ligne, comme la première barre de son site.
-   Logo à gauche (il ramène à l'accueil : c'est là qu'on le cherche),
-   menu au centre — vraiment centré, colonnes latérales égales —, réseaux
-   à droite sur une ligne. Collé en haut de l'écran pendant le défilement :
-   le menu reste à portée sur cette longue page. Sur mobile, le menu passe
-   sous le logo et l'en-tête n'est plus collé (il prendrait trop de place).
+   En-tête — calqué sur celui de son site Adobe Portfolio (mesuré sur
+   inkanostudio.com), pour qu'on ne sente pas le passage d'un site à
+   l'autre :
+     - 120 px de haut, fond blanc, ombre légère (pas de filet) ; il défile
+       avec la page (non collé) ;
+     - menu à partir de 30 % de la largeur, Cormorant 16 px en capitales,
+       #282828, sans effet de survol ni de page active ;
+     - logo à droite, puis les trois réseaux empilés (icônes de 28 px) ;
+     - à 932 px et moins : logo à gauche, burger bleu à droite, menu en
+       plein écran (voir plus bas).
    --------------------------------------------------------- */
 .entete {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 24px;
-  padding: 14px var(--marge);
-  background: rgba(255, 255, 255, .94);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--gris-clair);
-}
-/* les ancres (#services, #contact) ne doivent pas finir sous l'en-tête */
-html { scroll-padding-top: 112px; }
-
-.logo { justify-self: start; display: block; line-height: 0; border-radius: 4px; }
-.logo img, .logo svg { height: 72px; width: auto; }
-
-.entete nav {
+  position: relative;
+  z-index: 3;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px clamp(18px, 2.4vw, 34px);
+  align-items: center;
+  height: 120px;
+  padding: 0 2% 0 30%;
+  background: var(--blanc);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
 }
+
+/* sur grand écran, le conteneur du menu mobile n'existe pas pour la mise
+   en page : menu et réseaux sont directement des éléments de l'en-tête */
+.menu { display: contents; }
+.bouton-menu, .fermer-menu { display: none; }
+
+.entete nav { order: 1; display: flex; flex-wrap: wrap; align-items: center; }
 .entete nav a {
   font-family: var(--serif);
-  font-size: 15.5px;
-  letter-spacing: .06em;
+  font-size: 16px;
+  line-height: 24px;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
-  padding: 4px 0 2px;
-  border-bottom: 1px solid transparent;
-  transition: border-color .25s, color .25s;
+  color: #282828;
+  padding-right: 24px;
 }
-.entete nav a:hover,
-.entete nav a:focus-visible,
-.entete nav a[aria-current="page"] { border-color: var(--bleu); color: var(--bleu); }
+.entete nav a:last-child { padding-right: 0; }
 
-.reseaux { justify-self: end; display: flex; gap: 18px; }
-.reseaux a { color: var(--noir); line-height: 0; padding: 4px; margin: -4px; transition: color .25s; }
-.reseaux a:hover, .reseaux a:focus-visible { color: var(--bleu); }
-.reseaux svg { width: 20px; height: 20px; fill: currentColor; }
+.logo { order: 2; margin: 0 16px 0 auto; display: block; line-height: 0; }
+.logo img, .logo svg { height: 65px; width: auto; }
 
-/* sur grand écran, le conteneur du menu mobile n'existe pas pour la grille :
-   menu et réseaux restent ses colonnes du centre et de droite */
-.menu { display: contents; }
-.bouton-menu { display: none; }
-
-@media (max-width: 960px) {
-  .entete {
-    position: static;
-    grid-template-columns: auto 1fr;
-    row-gap: 8px;
-    padding-block: 12px 10px;
-  }
-  .entete nav { grid-column: 1 / -1; grid-row: 2; }
-  .logo img, .logo svg { height: 56px; }
-  html { scroll-padding-top: 0; }
+.entete .reseaux {
+  order: 3;
+  width: 4.5%;
+  min-width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+.reseaux a { color: #282828; line-height: 0; }
+.reseaux svg { width: 28px; height: 28px; fill: currentColor; padding: 4px; }
 
-/* --- Mobile : barre compacte collée en haut, logo + bouton « Menu » ;
-   le menu se déroule par-dessus la page, en grandes cibles pour le doigt. */
-@media (max-width: 760px) {
-  .entete {
-    position: sticky;
-    grid-template-columns: auto 1fr;
-    padding-block: 8px;
-  }
-  html { scroll-padding-top: 84px; }
+/* ---------- 932 px et moins : burger, menu en plein écran ---------- */
+@media (max-width: 932px) {
+  .entete { padding: 0 5%; justify-content: space-between; }
+  .logo { order: 0; margin: 0; }
+  .logo img, .logo svg { height: 60px; }
 
   .bouton-menu {
-    justify-self: end;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 44px;
-    padding: 8px 4px 8px 12px;
+    display: block;
+    padding: 30px 0 30px 24px;
+    margin-right: -4px;
     border: 0;
     background: none;
-    color: var(--noir);
-    font: 500 14px/1 var(--sans);
-    letter-spacing: .04em;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
-  .bouton-menu:focus-visible { outline: 2px solid var(--bleu); outline-offset: 2px; border-radius: 6px; }
-  .burger { position: relative; width: 22px; height: 14px; }
-  .burger i {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    border-radius: 2px;
-    background: currentColor;
-    transition: transform .25s ease, opacity .2s ease, top .25s ease;
-  }
-  .burger i:nth-child(1) { top: 0; }
-  .burger i:nth-child(2) { top: 6px; }
-  .burger i:nth-child(3) { top: 12px; }
-  /* ouvert : le burger devient une croix */
-  .entete.ouvert .burger i:nth-child(1) { top: 6px; transform: rotate(45deg); }
-  .entete.ouvert .burger i:nth-child(2) { opacity: 0; }
-  .entete.ouvert .burger i:nth-child(3) { top: 6px; transform: rotate(-45deg); }
+  .burger { display: block; width: 24px; }
+  .burger i { display: block; height: 2px; margin-bottom: 4px; background: var(--bleu); }
+  .burger i:last-child { margin-bottom: 0; }
 
   .menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    padding: 4px var(--marge) 20px;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    padding: 50px 5% 80px;
+    overflow: auto;
     background: var(--blanc);
-    border-bottom: 1px solid var(--gris-clair);
-    box-shadow: 0 18px 30px -24px rgba(17, 19, 24, .45);
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0s ease .2s, opacity .2s ease;
   }
-  .entete.ouvert .menu { display: block; animation: deroule .22s ease-out; }
-  @keyframes deroule { from { opacity: 0; translate: 0 -8px; } }
+  .entete.ouvert .menu { opacity: 1; visibility: visible; transition: visibility 0s, opacity .2s ease; }
+  html.menu-ouvert { overflow: hidden; }
 
-  .entete .menu nav { display: flex; flex-direction: column; gap: 0; }
-  .entete .menu nav a {
-    align-self: stretch;
-    padding: 14px 0;
-    font-size: 17px;
-    border-bottom: 1px solid var(--gris-clair);
+  .entete .menu nav { margin: auto; width: 100%; flex-direction: column; flex-wrap: nowrap; }
+  .entete .menu nav a { display: block; padding: 0 0 30px; font-size: 22px; line-height: 32px; }
+
+  .entete .menu .reseaux {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    width: 100%;
+    min-height: 80px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    padding: 5%;
+    background: var(--blanc);
+    border-top: 1px solid rgba(0, 0, 0, .08);
   }
-  .entete .menu nav a:last-child { border-bottom: 0; }
-  .entete .menu nav a[aria-current="page"] { border-bottom-color: var(--gris-clair); }
-  .entete .menu nav a:last-child[aria-current="page"] { border-bottom: 0; }
-  .entete .menu .reseaux { justify-self: stretch; justify-content: flex-start; gap: 22px; padding-top: 14px; }
-  .entete .menu .reseaux svg { width: 24px; height: 24px; }
+  .entete .menu .reseaux svg { width: 42px; height: 28px; padding: 0; }
+
+  .fermer-menu {
+    display: block;
+    position: fixed;
+    top: 20px; right: calc(5% - 10px);
+    width: 40px; height: 40px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .fermer-menu::before, .fermer-menu::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 10px;
+    width: 2px; height: 20px;
+    background: var(--bleu);
+    transform: rotate(45deg);
+  }
+  .fermer-menu::after { transform: rotate(-45deg); }
 }
-@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
-  .entete.ouvert .menu { animation: none; }
-  .burger i { transition: none; }
+.entete a:focus-visible, .bouton-menu:focus-visible, .fermer-menu:focus-visible {
+  outline: 2px solid var(--bleu);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu, .entete.ouvert .menu { transition: none; }
 }
 
 /* ---------------------------------------------------------
@@ -276,9 +268,10 @@ html { scroll-padding-top: 112px; }
 
 .accroche h1 {
   font-family: var(--serif);
-  font-weight: 600;                 /* ses titres de page : Cormorant 600 */
-  font-size: clamp(30px, 4.6vw, 48px);
-  line-height: 1.15;
+  font-weight: 600;                 /* ses titres de page : Cormorant 600, 40 px */
+  font-size: clamp(30px, 4vw, 40px);
+  line-height: 1.05;
+  color: #282828;
   margin: 0 0 8px;
   text-wrap: balance;
 }
@@ -698,8 +691,9 @@ html { scroll-padding-top: 112px; }
   display: flex;
   align-items: center;
   gap: 14px;
-  font-family: var(--serif);
-  font-size: clamp(19px, 2vw, 22px);
+  font-family: var(--sans);          /* comme sur sa page : intitulés bleus dans la police du texte */
+  font-size: 18px;
+  font-weight: 400;
   line-height: 1.3;
   color: var(--bleu);
 }
@@ -764,39 +758,44 @@ html { scroll-padding-top: 112px; }
 /* ---------------------------------------------------------
    Pied de page
    --------------------------------------------------------- */
+/* comme le sien : centré, Cormorant 16 px, très discret */
 .pied {
-  padding: 34px var(--marge) 46px;
-  border-top: 1px solid var(--gris-clair);
+  padding: 50px 5% 100px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  font-size: 14px;
-  color: var(--gris);
+  gap: 10px;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 20px;
+  color: #aaa;
 }
-.pied a { text-decoration: none; }
-.pied .legal { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.pied a { color: inherit; text-decoration: none; }
+.pied .legal { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; }
 .pied a:hover { color: var(--bleu); }
 
 /* Retour en haut ------------------------------------------- */
+/* comme le sien : rond de 60 px gris translucide, flèche estompée */
 .haut-de-page {
   position: fixed;
-  right: 22px; bottom: 22px;
-  width: 46px; height: 46px;
+  right: 40px; bottom: 40px;
+  z-index: 3;
+  width: 60px; height: 60px;
   display: grid; place-items: center;
   border: none;
-  border-radius: 50%;
-  background: var(--fond-doux);
-  color: var(--noir);
-  font-size: 18px;
+  border-radius: 60px;
+  background: rgba(0, 0, 0, .1);
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .3s, background .25s;
+  transition: opacity .3s, background .2s;
 }
+.haut-de-page svg { width: 24px; height: 24px; fill: #000; opacity: .3; transition: opacity .2s; }
 .haut-de-page.visible { opacity: 1; pointer-events: auto; }
-.haut-de-page:hover { background: var(--bleu-pale); color: var(--bleu); }
+.haut-de-page:hover { background: rgba(0, 0, 0, .2); }
+.haut-de-page:hover svg { opacity: .5; }
+@media (max-width: 540px) { .haut-de-page { right: 20px; bottom: 20px; } }
 
 /* ---------------------------------------------------------
    Écrans tactiles : pas de survol possible

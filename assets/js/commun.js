@@ -68,37 +68,42 @@
   /* --- Montage --------------------------------------------- */
   const entete = document.querySelector("[data-entete]");
   if (entete) {
-    // une seule ligne : logo à gauche (retour à l'accueil), menu au centre,
-    // réseaux à droite. Sur mobile, menu et réseaux passent dans un panneau
-    // ouvert par le bouton « Menu » (masqué sur grand écran).
+    // Comme l'en-tête de son site : menu, logo, réseaux sur grand écran ;
+    // à 932 px et moins, burger et menu en plein écran (le conteneur
+    // `.menu` porte alors le menu, les réseaux et la croix de fermeture).
     entete.innerHTML = blocLogo() +
-      '<button class="bouton-menu" type="button" aria-expanded="false" aria-controls="menu-principal">' +
-        '<span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>Menu</button>' +
-      '<div class="menu" id="menu-principal">' + blocNav(entete.dataset.entete) + blocReseaux() + "</div>";
+      '<button class="bouton-menu" type="button" aria-expanded="false" aria-controls="menu-principal" aria-label="Ouvrir le menu">' +
+        '<span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></button>' +
+      '<div class="menu" id="menu-principal">' +
+        '<button class="fermer-menu" type="button" aria-label="Fermer le menu"></button>' +
+        blocNav(entete.dataset.entete) + blocReseaux() + "</div>";
 
     const bouton = entete.querySelector(".bouton-menu");
+    const fermer = entete.querySelector(".fermer-menu");
     const ouvrir = (oui) => {
       entete.classList.toggle("ouvert", oui);
+      document.documentElement.classList.toggle("menu-ouvert", oui);   // la page ne défile plus dessous
       bouton.setAttribute("aria-expanded", String(oui));
+      if (oui) fermer.focus();
     };
-    bouton.addEventListener("click", () => ouvrir(!entete.classList.contains("ouvert")));
-    // on le referme : lien choisi, toucher ailleurs, Échap, retour au grand écran
+    bouton.addEventListener("click", () => ouvrir(true));
+    fermer.addEventListener("click", () => { ouvrir(false); bouton.focus(); });
     entete.querySelectorAll(".menu a").forEach((a) => a.addEventListener("click", () => ouvrir(false)));
-    document.addEventListener("click", (e) => { if (!entete.contains(e.target)) ouvrir(false); });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && entete.classList.contains("ouvert")) { ouvrir(false); bouton.focus(); }
     });
-    matchMedia("(min-width: 761px)").addEventListener("change", () => ouvrir(false));
+    matchMedia("(min-width: 933px)").addEventListener("change", () => ouvrir(false));
   }
 
   const pied = document.querySelector("[data-pied]");
   if (pied) {
-    // comme le pied de page de son site : « © année Inkano Studio — Manon Amen »,
-    // ses mentions légales et sa politique de confidentialité
+    // comme le pied de page de son site : « © année Inkano Studio — Manon Amen »
+    // (les réseaux sont dans l'en-tête), plus ses mentions légales et sa
+    // politique de confidentialité
     const legal = (A.legal || []).map((l) => '<a href="' + l.lien + '">' + l.label + "</a>").join("");
     pied.innerHTML =
       "<span>© " + new Date().getFullYear() + " " + (A.studio ? A.studio + " — " : "") + A.nom + "</span>" +
-      (legal ? '<span class="legal">' + legal + "</span>" : "<span></span>") + blocReseaux();
+      (legal ? '<span class="legal">' + legal + "</span>" : "");
   }
 
   /* --- Boutons « Me contacter » ------------------------------
@@ -116,7 +121,7 @@
   bouton.className = "haut-de-page";
   bouton.type = "button";
   bouton.setAttribute("aria-label", "Retour en haut de page");
-  bouton.innerHTML = "↑";
+  bouton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5.2l7.4 7.4-1.4 1.4-5-5V19h-2V9l-5 5-1.4-1.4z"/></svg>';
   bouton.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
   document.body.appendChild(bouton);
   const majBouton = () => bouton.classList.toggle("visible", window.scrollY > 400);
