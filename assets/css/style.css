@@ -137,8 +137,10 @@ img { max-width: 100%; }
 }
 .entete nav a:last-child { padding-right: 0; }
 
-.logo { order: 2; margin: 0 16px 0 auto; display: block; line-height: 0; }
-.logo img, .logo svg { height: 65px; width: auto; }
+/* comme le sien : le logo suit la largeur de la fenêtre (3,55 % : 51 px à
+   1440, 60 px à 1680) */
+.logo { order: 2; margin: 0 1.1vw 0 auto; display: block; line-height: 0; }
+.logo img, .logo svg { width: 3.55vw; height: auto; }
 
 .entete .reseaux {
   order: 3;
@@ -148,14 +150,15 @@ img { max-width: 100%; }
   flex-direction: column;
   align-items: center;
 }
-.reseaux a { color: #282828; line-height: 0; }
-.reseaux svg { width: 28px; height: 28px; fill: currentColor; padding: 4px; }
+/* comme les siennes : une case de 28 px, le dessin n'y fait que 15 px */
+.reseaux a { display: grid; place-items: center; width: 28px; height: 28px; color: #282828; line-height: 0; }
+.reseaux svg { width: 15px; height: 15px; fill: currentColor; }
 
 /* ---------- 932 px et moins : burger, menu en plein écran ---------- */
 @media (max-width: 932px) {
   .entete { padding: 0 5%; justify-content: space-between; }
   .logo { order: 0; margin: 0; }
-  .logo img, .logo svg { height: 60px; }
+  .logo img, .logo svg { width: auto; height: 60px; }
 
   .bouton-menu {
     display: block;
@@ -201,7 +204,7 @@ img { max-width: 100%; }
     background: var(--blanc);
     border-top: 1px solid rgba(0, 0, 0, .08);
   }
-  .entete .menu .reseaux svg { width: 42px; height: 28px; padding: 0; }
+  .entete .menu .reseaux a { width: 42px; }
 
   .fermer-menu {
     display: block;
