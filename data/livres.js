@@ -173,13 +173,16 @@ const PORTFOLIO = {
   /* --- Livres de décor (non cliquables) ---------------------
      Format : [hauteur, épaisseur, couleur]. Ils remplissent la
      tablette de part et d'autre, autant qu'il y a de place.
+     Nettement plus bas que les deux livres cliquables (360) : ceux-ci
+     ressortent, et on voit Manon derrière quand elle caresse Minette ou
+     arrose les plantes (ils faisaient 272-366, réduits de 28 %).
   ----------------------------------------------------------- */
   decoratifs: [
-    [306, 34, "#c5d5e6"], [344, 46, "#8fa9c4"], [284, 52, "#e7ecf2"],
-    [360, 24, "#1a1f26"], [316, 60, "#b4c7dc"], [292, 30, "#6d8bab"],
-    [336, 40, "#dde5ee"], [272, 54, "#9db5cd"], [326, 32, "#2b3947"],
-    [352, 26, "#7fa3c7"], [300, 64, "#eef2f6"], [322, 44, "#526a83"],
-    [280, 48, "#c9d7e5"], [366, 30, "#a6bbd1"], [310, 68, "#e2e9f0"],
-    [288, 36, "#3d4d5e"],
+    [220, 34, "#c5d5e6"], [248, 46, "#8fa9c4"], [204, 52, "#e7ecf2"],
+    [259, 24, "#1a1f26"], [228, 60, "#b4c7dc"], [210, 30, "#6d8bab"],
+    [242, 40, "#dde5ee"], [196, 54, "#9db5cd"], [235, 32, "#2b3947"],
+    [253, 26, "#7fa3c7"], [216, 64, "#eef2f6"], [232, 44, "#526a83"],
+    [202, 48, "#c9d7e5"], [264, 30, "#a6bbd1"], [223, 68, "#e2e9f0"],
+    [207, 36, "#3d4d5e"],
   ],
 };
