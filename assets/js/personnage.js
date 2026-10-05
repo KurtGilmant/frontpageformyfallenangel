@@ -44,6 +44,7 @@
 
   const LEVEE_LIVRE = 6;     // px : le livre survolé monte de 6 px (voir CSS)
   const INCLINAISON = 20;    // degrés : elle abaisse l'arrosoir pour verser
+  const INCLINAISON_MIN = 8; // degrés : au moins ça, pour une plante haute
   const AU_DESSUS = 22;      // unités : le bec, au-dessus du feuillage
   const BRAS_LEVE = -55;     // degrés : le bras quand il sort ou rentre — dans
                              // le prolongement du salut de son dessin au repos
@@ -144,27 +145,35 @@
     plante.classList.add("arrosee");
     const def = ORN[plante.dataset.ornement];
 
-    // le bec, une fois le bras abaissé de INCLINAISON (repère écran)
-    const a = INCLINAISON * Math.PI / 180;
-    const vx = BEC.x - PIVOT.x, vy = -(BEC.y - PIVOT.y);
-    const bec = { x: vx * Math.cos(a) - vy * Math.sin(a), y: vx * Math.sin(a) + vy * Math.cos(a) };
-    // où verser : au-dessus du feuillage, le plus près possible du milieu,
-    // mais là où il est assez bas pour qu'elle n'ait pas à se hisser hors de
-    // l'étagère (la monstera est plus haute en son centre). Le feuillage
-    // « local » = le plus haut des trois points voisins du profil.
+    // Le bec doit arriver au-dessus du MILIEU de la plante, juste au-dessus
+    // du feuillage (le « local » = le plus haut des trois points voisins du
+    // profil). Plus elle penche l'arrosoir, plus le bec descend : pour une
+    // plante haute comme la monstera, elle le penche donc moins (jusqu'à
+    // INCLINAISON_MIN) plutôt que de se hisser hors de l'étagère. En dernier
+    // recours seulement, elle vise un endroit plus bas du feuillage.
     const P = def.profil, n = P.length - 1;
     const local = (i) => Math.max(P[Math.max(i - 1, 0)], P[i], P[Math.min(i + 1, n)]);
-    const piedsPour = (i) => local(i) + AU_DESSUS + bec.y - PIVOT.y;
-    const ordre = [...P.keys()].sort((i, j) => Math.abs(i - n / 2) - Math.abs(j - n / 2));
-    const cible = ordre.find((i) => piedsPour(i) <= piedsDebout) ??
-                  ordre.reduce((m, i) => (piedsPour(i) < piedsPour(m) ? i : m));
-    const pieds = Math.min(piedsDebout, piedsPour(cible));
+    const vx = BEC.x - PIVOT.x, vy = -(BEC.y - PIVOT.y);
+    const becPour = (deg) => {
+      const r = deg * Math.PI / 180;
+      return { x: vx * Math.cos(r) - vy * Math.sin(r), y: vx * Math.sin(r) + vy * Math.cos(r) };
+    };
+    const piedsPour = (i, b) => local(i) + AU_DESSUS + b.y - PIVOT.y;
+    const milieu = Math.round(n / 2);
+    let incl = INCLINAISON, cible = milieu;
+    while (incl > INCLINAISON_MIN && piedsPour(milieu, becPour(incl)) > piedsDebout) incl--;
+    if (piedsPour(milieu, becPour(incl)) > piedsDebout) {
+      const ordre = [...P.keys()].sort((i, j) => Math.abs(i - milieu) - Math.abs(j - milieu));
+      cible = ordre.find((i) => piedsPour(i, becPour(incl)) <= piedsDebout) ?? milieu;
+    }
+    const bec = becPour(incl);
+    const pieds = Math.min(piedsDebout, piedsPour(cible, bec));
     // x de la cible : le dessin est centré sur sa place dans la rangée
     const x = plante.offsetLeft + plante.offsetWidth / 2 + (cible / n - 0.5) * def.largeurDessin * echelle();
     amenerPivot(x - bec.x * echelle(), rangee);
     perso.style.setProperty("--pieds", pieds.toFixed(1));
-    tourner(brasArrosoir, INCLINAISON);
-    tourner(bras, INCLINAISON);         // pour repartir de là au relâcher
+    tourner(brasArrosoir, incl);
+    tourner(bras, incl);                // pour repartir de là au relâcher
 
     // les gouttes, sous le bec
     gouttes.style.left = pct(PIVOT.x + bec.x, LARGEUR);
