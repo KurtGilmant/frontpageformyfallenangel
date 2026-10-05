@@ -12,7 +12,13 @@
        inventé.
    ============================================================= */
 
-const SITE = "https://inkanostudio.com";
+/* Son site Adobe Portfolio. Aujourd'hui sur inkanostudio.com ; quand cette
+   page d'accueil prendra inkanostudio.com, ses pages passeront sur
+   portfolio.inkanostudio.com. On le déduit de l'adresse où cette page est
+   servie : rien à changer le jour de la bascule. */
+const SITE = /(^|\.)inkanostudio\.com$/.test(location.hostname)
+  ? "https://portfolio.inkanostudio.com"
+  : "https://inkanostudio.com";
 
 const PORTFOLIO = {
 
