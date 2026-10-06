@@ -43,16 +43,16 @@ const PORTFOLIO = {
     },
     // liens du pied de page, comme sur son site
     legal: [
-      { label: "Mentions légales",             lien: SITE + "/mentions-legales-1" },
-      { label: "Politique de confidentialité", lien: SITE + "/copie-de-mentions-legales" },
+      { label: "Mentions légales",             lien: SITE + "/mentions-legales" },
+      { label: "Politique de confidentialité", lien: SITE + "/politique-de-confidentialite" },
     ],
   },
 
   /* --- Menu de navigation : le même que sur son site --------- */
   navigation: [
     { label: "Accueil",              lien: "index.html" },
-    { label: "Littérature générale", lien: SITE + "/edition-adulte-1" },
-    { label: "Littérature jeunesse", lien: SITE + "/edition-jeunesse-1" },
+    { label: "Littérature générale", lien: SITE + "/litterature-generale" },
+    { label: "Littérature jeunesse", lien: SITE + "/litterature-jeunesse" },
     { label: "À propos",             lien: SITE + "/a-propos" },
     { label: "Contact",              lien: SITE + "/contact" },
   ],
@@ -76,7 +76,7 @@ const PORTFOLIO = {
       id: "litterature-generale",
       titre: "Littérature générale",
       soustitre: "Couvertures",
-      lien: SITE + "/edition-adulte-1",
+      lien: SITE + "/litterature-generale",
       couleur: "#21403a", encre: "#e3c27a",
       hauteur: 360, epaisseur: 86,
       dos: "assets/images/dos-litterature-generale.jpg",
@@ -86,7 +86,7 @@ const PORTFOLIO = {
       id: "litterature-jeunesse",
       titre: "Littérature jeunesse",
       soustitre: "Illustration",
-      lien: SITE + "/edition-jeunesse-1",
+      lien: SITE + "/litterature-jeunesse",
       couleur: "#6fb6e4", encre: "#f26522",
       hauteur: 360, epaisseur: 86,
       dos: "assets/images/dos-litterature-jeunesse.jpg",

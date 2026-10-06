@@ -31,6 +31,12 @@ dans [`data/livres.js`](data/livres.js) :
 
 **Si elle renomme une page sur Adobe Portfolio, son adresse change** : la
 mettre à jour ici (la constante `SITE` en tête du fichier donne le domaine).
+Pour tout vérifier d'un coup :
+
+```bash
+python3 outils/verifier_liens.py
+```
+
 
 **Les textes, eux, sont les siens**, repris mot pour mot :
 
