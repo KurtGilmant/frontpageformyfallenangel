@@ -8,7 +8,7 @@ une erreur 404 (Adobe Portfolio la remplace par sa page d'arrivée).
 import pathlib, re, sys, urllib.request, urllib.error
 
 RACINE = pathlib.Path(__file__).resolve().parent.parent
-DOMAINE = "https://inkanostudio.com"   # adresse actuelle de son site Portfolio
+DOMAINE = "https://portfolio.inkanostudio.com"   # son site Adobe Portfolio (depuis la bascule du domaine)
 
 texte = (RACINE / "data/livres.js").read_text()
 chemins = sorted(set(re.findall(r'SITE \+ "(/[^"]*)"', texte)))
