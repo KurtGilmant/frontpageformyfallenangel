@@ -19,13 +19,12 @@
   --fond-doux:   #f7f9fb;
 
   /* Typographie --------------------------------------------- */
-  /* Son site (Adobe Portfolio) : Cormorant Garamond pour les titres et le
-     menu — la même, servie ici par Google Fonts — et Clone Rounded Latin
-     pour le texte. Celle-ci n'existe que chez Adobe Fonts, réservée à son
-     domaine : Fira Sans Light la remplace — comparées côte à côte sur son
-     site, mêmes formes, même chasse (les lignes se coupent aux mêmes mots). */
+  /* Les polices de son site (Adobe Portfolio) : Cormorant Garamond pour les
+     titres et le menu (Google Fonts, même dessin) et Clone Rounded Latin
+     pour le texte, servie par son projet web Adobe Fonts (wts0cub, graisses
+     300 et 400 seulement). */
   --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
-  --sans:  "Fira Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sans:  "clone-rounded-latin", "Fira Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   /* Échelle des livres (réduite sur petits écrans) ----------- */
   --echelle: 1;
@@ -72,7 +71,7 @@ img { max-width: 100%; }
   font-family: var(--sans);
   line-height: 1.4;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: .01em;
   color: var(--bleu);
   margin: 0 0 14px;
@@ -738,7 +737,7 @@ img { max-width: 100%; }
   line-height: 1;
   color: var(--bleu);
 }
-.etape h3 { font-size: 17.5px; font-weight: 500; margin: 0 0 8px; }
+.etape h3 { font-size: 17.5px; font-weight: 400; margin: 0 0 8px; }
 .etape p  { margin: 0; color: var(--gris); font-size: 15.5px; }
 
 /* ---------------------------------------------------------
